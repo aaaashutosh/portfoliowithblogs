@@ -163,14 +163,30 @@ async function fetchRSS() {
     try {
         const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
         const data = await response.json();
-        
-        // Log the total number of items received from the API
-        console.log("Total RSS items fetched: ", data.items.length);
 
+        console.log("Total RSS items fetched: ", data.items.length);
         let html = "";
-        // Limit to the first 50 items if available
+
         const itemsToShow = data.items.slice(0, 50); // Limit to 50 items
         itemsToShow.forEach(item => {
+            console.log(item); // Debugging: Check available fields
+
+            // Try different sources for the thumbnail
+            let imageUrl = item.thumbnail || (item.enclosure ? item.enclosure.link : "") || "";
+
+            // If no direct thumbnail, extract from content
+            if (!imageUrl && item.content) {
+                const imgMatch = item.content.match(/<img.*?src="(.*?)"/);
+                if (imgMatch) {
+                    imageUrl = imgMatch[1];
+                }
+            }
+
+            // Fallback image
+            if (!imageUrl) {
+                imageUrl = "altimg.jpg";
+            }
+
             const postDate = new Date(item.pubDate);
             const formattedDate = postDate.toLocaleDateString("en-US", {
                 year: "numeric",
@@ -181,7 +197,7 @@ async function fetchRSS() {
             html += `
                 <div class="rss-item">
                     <div class="rss-image">
-                        <img src="${item.thumbnail || 'altimg.jpg'}" alt="${item.thumbnail ? item.title : 'altimg.jpg'}">
+                        <img src="${imageUrl}" alt="${item.title}">
                     </div>
                     <div class="rss-content">
                         <h3>${item.title}</h3>
@@ -203,6 +219,4 @@ async function fetchRSS() {
     }
 }
 
-// Run the fetchRSS function when the page is loaded
 document.addEventListener("DOMContentLoaded", fetchRSS);
-

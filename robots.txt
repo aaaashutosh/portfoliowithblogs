@@ -1,0 +1,18 @@
+# robots.txt for https://aashutoshkhatiwada.com.np
+
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /private/
+Allow: /
+
+# Sitemap location
+Sitemap: https://aashutoshkhatiwada.com.np/sitemap.xml
+
+# Prevent image indexing if needed
+# Uncomment if you don't want image search
+# User-agent: Googlebot-Image
+# Disallow: /
+
+# Crawl-delay (optional - uncomment if server gets too many requests)
+# Crawl-delay: 10

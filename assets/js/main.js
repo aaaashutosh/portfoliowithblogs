@@ -194,13 +194,16 @@ async function fetchRSS() {
                 day: "numeric"
             });
 
+            // Truncate the title to 50 characters and add ellipsis if necessary
+            const truncatedTitle = item.title.length > 50 ? item.title.substring(0, 50) + "..." : item.title;
+
             html += `
                 <div class="rss-item">
                     <div class="rss-image">
                         <img src="${imageUrl}" alt="${item.title}">
                     </div>
                     <div class="rss-content">
-                        <h3>${item.title}</h3>
+                        <h3>${truncatedTitle}</h3>  <!-- Truncated title here -->
                         <p class="rss-date">${formattedDate}</p>
                         <a href="${item.link}" target="_blank" class="button big">Read More</a>
                     </div>

@@ -1739,12 +1739,17 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
   transition: all 0.3s ease;
   padding: 10px; /* Reduced padding */
 }
-
 .rss-image img {
   width: 100%;
   height: auto;
-  border-bottom: 1px solid #ddd; /* Lighter border */
+  border-bottom: 1px solid #ddd; /* Lighter border */ 
+  transition: transform 1s ease;
 }
+
+.rss-image img:hover {
+  transform: scale(1.2);
+}
+
 
 .rss-content {
   padding: 10px; /* Reduced padding */
@@ -1772,11 +1777,17 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
   text-decoration: none;
   color: inherit;
 }
-
-/* Button styles */
+/* Fixed hover effect removal */
+.rss-item:hover {
+  background: #fff;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+}
+/* Button styles for .rss-item a.button */
+/* Button styles for .rss-item a.button */
 .rss-item a.button {
   background: #fff;
-  border-radius: 50px;
   color: #4a90e2;
   cursor: pointer;
   font-size: 14px; /* Reduced font size */
@@ -1788,35 +1799,42 @@ input[type="submit"].disabled, input[type="submit"]:disabled, input[type="reset"
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #4a90e2; /* Add border for structure */
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Apply shadow with offset and blur */
+  background-color: #e8ecf0; /* Light background color */
 }
 
-/* Fixed hover effect removal */
-.rss-item:hover {
-  background: #fff;
-  transform: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
+/* Hover effect for the button */
 .rss-item a.button:hover {
-  background-color: #c6defa;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
 }
+
+
+/* Button styles for .for-more-button */
 .for-more-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
+  background-color: #fff; /* Background color similar to .rss-item button */
+  color: #4a90e2; /* Text color matching the button style */
+  padding: 6px 12px; /* Smaller padding to match the style */
+  border: 1px solid #4a90e2; /* Border to match button's border */
   border-radius: 5px;
+  font-size: 14px; /* Reduced font size */
+  font-weight: 600; /* Matching font weight */
+  line-height: 20px;
   text-decoration: none;
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease-in-out, transform 1s ease;
 }
 
 .for-more-button:hover {
-  background-color: #c6defa;
+  background-color: #e8ecf0; /* Light background on hover */
+  transform: scale(1); /* Slight zoom effect on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow for hover */
 }
 
 /* Wrapper */

@@ -43,5 +43,5 @@ Stay connected through my social media profiles:
 
 ## 📄 License
 
-© 2024 Aashutosh Khatiwada. All rights reserved.
+© Aashutosh Khatiwada. All rights reserved.
 

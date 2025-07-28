@@ -159,15 +159,40 @@
 
 // Fetch RSS feed function
 async function fetchRSS() {
-    const rssUrl = "https://ritible.com/profile/aashutosh/feed/gn";
+    const rssUrls = [
+        "https://ritible.com/profile/aashutosh/feed/gn",
+        "https://kirib.co/profile/aashutosh/feed/gn"
+    ];
+    
     try {
-        const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
-        const data = await response.json();
+        // Fetch all RSS feeds concurrently
+        const promises = rssUrls.map(url => 
+            fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`)
+                .then(response => response.json())
+                .catch(error => {
+                    console.error(`Error fetching RSS from ${url}:`, error);
+                    return { items: [] }; // Return empty items array on error
+                })
+        );
 
-        console.log("Total RSS items fetched: ", data.items.length);
+        const results = await Promise.all(promises);
+        
+        // Combine all items from different feeds
+        let allItems = [];
+        results.forEach((data, index) => {
+            if (data.items && data.items.length > 0) {
+                console.log(`RSS items from feed ${index + 1}: ${data.items.length}`);
+                allItems = allItems.concat(data.items);
+            }
+        });
+
+        // Sort all items by publication date (newest first)
+        allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        console.log("Total combined RSS items: ", allItems.length);
         let html = "";
 
-        const itemsToShow = data.items.slice(0, 50); // Limit to 50 items
+        const itemsToShow = allItems.slice(0, 50); // Limit to 50 items
         itemsToShow.forEach(item => {
             console.log(item); // Debugging: Check available fields
 
@@ -218,7 +243,7 @@ async function fetchRSS() {
             console.error("Element with ID 'blog-container' not found.");
         }
     } catch (error) {
-        console.error("Error fetching RSS feed:", error);
+        console.error("Error fetching RSS feeds:", error);
     }
 }
 
